@@ -7,14 +7,14 @@ export const counterSlice = createSlice({
     page: 0
   },
   reducers: {
-    incrementByAmount: (state, action) => {
+    addTableData: (state, action) => {
       state.posts = [...state.posts, ...action.payload];
       state.page += 1;
     },
   },
 });
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export const { addTableData } = counterSlice.actions;
 
 export const loadPosts = () => (dispatch, state) => {
   fetch(`https://hn.algolia.com/api/v1/search_by_date?tags=story&page=${state().counter.page}`)
@@ -26,7 +26,7 @@ export const loadPosts = () => (dispatch, state) => {
         }
     })
     .then((data) => {
-      dispatch(incrementByAmount(data.hits));
+      dispatch(addTableData(data.hits));
     })
     .catch((error) => {
       alert(error);

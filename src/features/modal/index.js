@@ -16,6 +16,15 @@ const StyledFade = styled(Fade)`
     text-overflow: break-word;
 `;
 
+const ModalContent = styled.div`
+
+`;
+
+const CloseWrap = styled.div`
+    display: flex;
+    justify-content: flex-end;
+`;
+
 export default function RowModal(props){
     const {isModalOpen, setIsModalOpen, modalContent} = props;
 
@@ -33,10 +42,12 @@ export default function RowModal(props){
             }}
         >
             <StyledFade in={isModalOpen}>
-                <div>
-                    <Close onClick={modalClose}/>
+                <ModalContent>
+                    <CloseWrap>
+                        <Close onClick={modalClose}/>
+                    </CloseWrap>
                     <p>{JSON.stringify(modalContent)}</p>
-                </div>
+                </ModalContent>
             </StyledFade>
         </StyledModal>
     )

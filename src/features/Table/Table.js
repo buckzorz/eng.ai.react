@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   loadPosts,
   selectPosts,
-} from './counterSlice';
+} from './tableData';
 
 import { Table, TableHead, TableRow, TableBody, TableCell, TableContainer, Input, Button, FormLabel} from '@material-ui/core'
 
@@ -17,11 +17,25 @@ const InputWrap = styled.div`
   align-items: center;
 `;
 
-const TableWrap = styled(TableContainer)`
-  width: 100%;
+const TableWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 25px 50px;
 `;
 
-export function Counter() {
+const TableBodyRow = styled(TableRow)`
+  cursor: pointer;
+  &:hover{
+    background-color: lightgray;
+  }
+`;
+
+const EqualCell = styled(TableCell)`
+  width: 25%;
+`;
+
+export function TableComponent() {
   const posts = useSelector(selectPosts);
   const dispatch = useDispatch();
 
@@ -98,7 +112,7 @@ export function Counter() {
   }
 
   return (
-    <div>
+    <TableWrap>
       <RowModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} modalContent={modalContent}/>
       <InputWrap>
         <FormLabel>Entre query: </FormLabel>
@@ -113,7 +127,7 @@ export function Counter() {
           <Button type={'button'} onClick={() => setFilter(null)}>Reset Filter</Button>
         }
       </InputWrap>
-      <TableContainer >
+      <TableContainer>
         <Table id={'data-table'}>
           <TableHead>
             <TableRow>
@@ -132,25 +146,28 @@ export function Counter() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {displayPosts.map((item, index) => (
-              <TableRow key={index} onClick={() => handleModal(item)}>
-                <TableCell>
+            {displayPosts && displayPosts.map((item, index) => (
+              <TableBodyRow key={index} onClick={() => handleModal(item)}>
+                <EqualCell>
                   {item.title}
-                </TableCell>
-                <TableCell>
+                </EqualCell>
+                <EqualCell>
                   {item.url}
-                </TableCell>
-                <TableCell>
+                </EqualCell>
+                <EqualCell>
                   {item.created_at}
-                </TableCell>
-                <TableCell>
+                </EqualCell>
+                <EqualCell>
                   {item.author}
-               </TableCell>
-              </TableRow>
+               </EqualCell>
+              </TableBodyRow>
             ))}
           </TableBody>
         </Table>
+        {displayPosts.length === 0 && 
+          <p>Nothing matches the query</p>
+        }
       </TableContainer>
-    </div>
+    </TableWrap>
   );
 }
